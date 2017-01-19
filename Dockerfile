@@ -18,14 +18,14 @@ MAINTAINER C Johannessen "cjohannessen@us.ibm.com"
 RUN curl -sSL https://github.com/amalgam8/amalgam8/releases/download/v0.4.2/a8sidecar.sh | sh
 
 # Install the application
-# ADD package.json /app/package.json 
-RUN npm install  
-# ADD app.js /app/app.js
+ADD package.json /app/package.json 
+RUN cd /app && npm install  
+ADD app.js /app/app.js
 # ENV WEB_PORT 80
 EXPOSE  80
 
 ## script_to_launch_sidecar_and_app
-ENTRYPOINT ["a8sidecar", "--register", "--proxy", "node", "/app.js"]
+ENTRYPOINT ["a8sidecar", "--register", "--proxy", "node", "/app/app.js"]
 
 ## Inject environment variables into the microservices container
 ENV A8_SERVICE=catalog:v1.0
